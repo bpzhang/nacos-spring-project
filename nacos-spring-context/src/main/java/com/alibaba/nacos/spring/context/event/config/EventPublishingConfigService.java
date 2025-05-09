@@ -20,6 +20,7 @@ package com.alibaba.nacos.spring.context.event.config;
 import java.util.Properties;
 import java.util.concurrent.Executor;
 
+import com.alibaba.nacos.api.config.filter.IConfigFilter;
 import org.springframework.beans.factory.DisposableBean;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.ConfigurableApplicationContext;
@@ -113,7 +114,7 @@ public class EventPublishingConfigService
 				published));
 		return published;
 	}
-	
+
 	@Override
 	public boolean publishConfig(String dataId, String group, String content, String type) throws NacosException {
 		boolean published = configService.publishConfig(dataId, group, content, type);
@@ -121,7 +122,7 @@ public class EventPublishingConfigService
 				published));
 		return published;
 	}
-	
+
 	@Override
 	public boolean publishConfigCas(String dataId, String group, String content, String casMd5) throws NacosException {
 		boolean published = configService.publishConfigCas(dataId, group, content, casMd5);
@@ -129,7 +130,7 @@ public class EventPublishingConfigService
 				published));
 		return published;
 	}
-	
+
 	@Override
 	public boolean publishConfigCas(String dataId, String group, String content, String casMd5, String type)
 			throws NacosException {
@@ -138,7 +139,7 @@ public class EventPublishingConfigService
 				published));
 		return published;
 	}
-	
+
 	@Override
 	public boolean removeConfig(String dataId, String group) throws NacosException {
 		boolean removed = configService.removeConfig(dataId, group);
@@ -156,6 +157,11 @@ public class EventPublishingConfigService
 	@Override
 	public String getServerStatus() {
 		return configService.getServerStatus();
+	}
+
+	@Override
+	public void addConfigFilter(IConfigFilter iConfigFilter) {
+		configService.addConfigFilter(iConfigFilter);
 	}
 
 	@Override

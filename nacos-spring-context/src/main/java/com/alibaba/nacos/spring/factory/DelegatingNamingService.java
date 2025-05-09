@@ -20,6 +20,7 @@ package com.alibaba.nacos.spring.factory;
 import java.util.List;
 import java.util.Properties;
 
+import com.alibaba.nacos.api.naming.selector.NamingSelector;
 import org.springframework.beans.factory.DisposableBean;
 
 import com.alibaba.nacos.api.exception.NacosException;
@@ -86,19 +87,19 @@ class DelegatingNamingService
 			throws NacosException {
 		delegate.registerInstance(serviceName, groupName, instance);
 	}
-	
+
 	@Override
 	public void batchRegisterInstance(String serviceName, String groupName, List<Instance> instances)
 			throws NacosException {
 		delegate.batchRegisterInstance(serviceName, groupName, instances);
 	}
-	
+
 	@Override
 	public void batchDeregisterInstance(String serviceName, String groupName, List<Instance> instances)
 			throws NacosException {
 		delegate.batchDeregisterInstance(serviceName, groupName, instances);
 	}
-	
+
 	@Override
 	public void deregisterInstance(String serviceName, String ip, int port)
 			throws NacosException {
@@ -305,6 +306,16 @@ class DelegatingNamingService
 	}
 
 	@Override
+	public void subscribe(String s, NamingSelector namingSelector, EventListener eventListener) throws NacosException {
+		delegate.subscribe(s, namingSelector, eventListener);
+	}
+
+	@Override
+	public void subscribe(String s, String s1, NamingSelector namingSelector, EventListener eventListener) throws NacosException {
+		delegate.subscribe(s, s1, namingSelector, eventListener);
+	}
+
+	@Override
 	public void unsubscribe(String serviceName, EventListener listener)
 			throws NacosException {
 		delegate.unsubscribe(serviceName, listener);
@@ -326,6 +337,16 @@ class DelegatingNamingService
 	public void unsubscribe(String serviceName, String groupName, List<String> clusters,
 			EventListener listener) throws NacosException {
 		delegate.unsubscribe(serviceName, groupName, clusters, listener);
+	}
+
+	@Override
+	public void unsubscribe(String s, NamingSelector namingSelector, EventListener eventListener) throws NacosException {
+		delegate.unsubscribe(s, namingSelector, eventListener);
+	}
+
+	@Override
+	public void unsubscribe(String s, String s1, NamingSelector namingSelector, EventListener eventListener) throws NacosException {
+		delegate.unsubscribe(s, s1, namingSelector, eventListener);
 	}
 
 	@Override

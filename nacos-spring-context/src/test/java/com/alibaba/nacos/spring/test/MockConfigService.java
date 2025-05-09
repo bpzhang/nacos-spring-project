@@ -23,6 +23,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.Executor;
 
+import com.alibaba.nacos.api.config.filter.IConfigFilter;
 import org.springframework.util.CollectionUtils;
 
 import com.alibaba.nacos.api.config.ConfigService;
@@ -97,7 +98,7 @@ public class MockConfigService implements ConfigService {
 
 		return true;
 	}
-	
+
 	@Override
 	public boolean publishConfig(String dataId, String group, final String content, String type)
 			throws NacosException {
@@ -124,12 +125,12 @@ public class MockConfigService implements ConfigService {
 
 		return true;
 	}
-	
+
 	@Override
 	public boolean publishConfigCas(String dataId, String group, final String content, String casMd5) throws NacosException {
 		String key = createKey(dataId, group);
 		contentCache.put(key, content);
-		
+
 		List<Listener> listeners = listenersCache.get(key);
 		if (!CollectionUtils.isEmpty(listeners)) {
 			for (final Listener listener : listeners) {
@@ -147,16 +148,16 @@ public class MockConfigService implements ConfigService {
 				}
 			}
 		}
-		
+
 		return true;
 	}
-	
+
 	@Override
 	public boolean publishConfigCas(String dataId, String group, final String content, String casMd5, String type)
 			throws NacosException {
 		String key = createKey(dataId, group, type);
 		contentCache.put(key, content);
-		
+
 		List<Listener> listeners = listenersCache.get(key);
 		if (!CollectionUtils.isEmpty(listeners)) {
 			for (final Listener listener : listeners) {
@@ -174,10 +175,10 @@ public class MockConfigService implements ConfigService {
 				}
 			}
 		}
-		
+
 		return true;
 	}
-	
+
 	@Override
 	public boolean removeConfig(String dataId, String group) throws NacosException {
 		String key = createKey(dataId, group);
@@ -196,6 +197,11 @@ public class MockConfigService implements ConfigService {
 	}
 
 	@Override
+	public void addConfigFilter(IConfigFilter iConfigFilter) {
+		// do nothing
+	}
+
+	@Override
 	public void shutDown() throws NacosException {
 
 	}
@@ -203,7 +209,7 @@ public class MockConfigService implements ConfigService {
 	private String createKey(String dataId, String groupId) {
 		return dataId + "&" + groupId;
 	}
-	
+
 	private String createKey(String dataId, String groupId, String type) {
 		return dataId + "&" + groupId + "&" + type;
 	}
